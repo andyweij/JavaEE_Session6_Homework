@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<form-beans>
+        <form-bean name="goodsorderform" type="com.training.formbean.GoodsOrderForm"/>
+        <form-bean name="backactionform" type="com.training.formbean.BackActionForm"/>
+  	</form-beans>
+  	
+ <action-mappings>    
+        <action path="/FrontendAction" type="com.training.action.FrontendAction" 
+        		parameter="action" name="goodsorderform">
+            <forward name="vendingMachine" path="/WEB-INF/view/VendingMachineCart.html"/>
+        </action>
+        <action path="/BackendAction" type="com.training.action.BackendAction" 
+        		parameter="action" name="backactionform">
+           <forward name="backendGoodsList" path="/WEB-INF/view/VM_Backend_GoodsList.jsp"/>
+           
+            <forward name="backendGoodsReplenishment" path="BackendAction.do?action=updateGoodsview" redirect="true"/>
+            <forward name="backendGoodsReplenishmentview" path="/WEB-INF/view/VM_Backend_GoodsReplenishment.jsp"/>
+            
+            <forward name="backendGoodsCreate" path="BackendAction.do?action=addGoodsview" redirect="true"/>
+            <forward name="backendGoodsCreateview" path="/WEB-INF/view/VM_Backend_GoodsCreate.jsp"/>
+            
+            <forward name="backendGoodsSaleReport" path="/WEB-INF/view/VM_Backend_GoodsSaleReport.jsp"/>
+        </action>
+         <action path="/LoginAction" type="com.training.action.LoginAction" parameter="action">
+           
+            <forward name="success" path="FrontendAction.do?action=searchGoods" redirect="true"/>
+
+            <forward name="fail" path="/VendingMachineLogin.jsp" />
+        </action> 
+        <action path="/MemberAction" type="com.training.action.MemberAction" parameter="action" name="goodsorderform">
+        <forward name="vendingMachine" path="/WEB-INF/view/VendingMachineCart.jsp"/>
+        </action>
+    </action-mappings>
+</struts-config>
+
