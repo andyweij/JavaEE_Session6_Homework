@@ -55,7 +55,7 @@ public class BackendAction extends DispatchAction{
 		Goods good = new Goods();	
 		BeanUtils.copyProperties(good, backactionform);
 		boolean modifyResult = backendservice.modifyGood(good);
-		String message = modifyResult ? "商品修改成功" : "商品修改失敗";
+		String message = modifyResult ? "1" : "2";
 		System.out.println(message);
 		// Redirect to view
 		return mapping.findForward("backendGoodsReplenishment");
@@ -82,7 +82,7 @@ public class BackendAction extends DispatchAction{
 		        Files.copy(fileContent, serverImgPath, StandardCopyOption.REPLACE_EXISTING);
 		    }
 		boolean createResult = backendservice.createGood(good);
-		String message = createResult ? "商品新增成功" : "商品新增失敗";
+		String message = createResult ? "1" : "2";
 		session.setAttribute("createMsg",message );
 		}catch (Exception e) {
 			e.printStackTrace();

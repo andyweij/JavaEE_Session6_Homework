@@ -19,7 +19,7 @@
 	<div style="margin-left:25px;">
 	<p style="color:blue;">${sessionScope.createMsg}</p>
 	<% session.removeAttribute("createMsg"); %>
-	<form action="BackendAction.do?action=addGoods" method="post">
+	<form action="BackendAction.do?action=addGoods" enctype="multipart/form-data" method="post">
 		<p>
 			商品名稱:
 			<input type="text" name="goodsName" size="10"/>
