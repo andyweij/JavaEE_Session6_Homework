@@ -157,4 +157,29 @@ public class BackEndDao {
 
 		return reports;
 	}
+	public Goods queryGoods(String goodsId) {
+		Goods good=new Goods();
+		String querySQL = "SELECT goods_id , goods_name , description , price , quantity , image_name , status FROM beverage_goods WHERE goods_id = ?";
+		// Step1:取得Connection
+		try (Connection conn = DBConnectionFactory.getOracleDBConnection();
+				// Step2:Create prepareStatement For SQL
+				PreparedStatement stmt = conn.prepareStatement(querySQL);
+				) {
+			stmt.setString(1,goodsId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				good.setGoodsID(rs.getString("GOODS_ID"));
+				good.setGoodsName(rs.getString("GOODS_NAME"));
+				good.setGoodsImageName(rs.getNString("image_name"));
+				good.setDESCRIPTION(rs.getNString("description"));
+				good.setGoodsPrice(rs.getInt("price"));
+				good.setGoodsQuantity(rs.getInt("quantity"));
+				good.setStatus(rs.getNString("status"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return good;
+	}
 }
