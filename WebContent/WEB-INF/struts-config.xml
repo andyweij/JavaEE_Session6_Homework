@@ -27,8 +27,9 @@
         </action>
          <action path="/LoginAction" type="com.training.action.LoginAction" parameter="action">
            
-            <forward name="success" path="FrontendAction.do?action=searchGoods" redirect="true"/>
-
+            <forward name="success" path="BackendAction.do?action=queryGoods" redirect="true"/>
+<!--BackendAction.do?action=queryGoods-->
+<!--FrontendAction.do?action=searchGoods-->
             <forward name="fail" path="/VendingMachineLogin.jsp" />
         </action> 
         <action path="/MemberAction" type="com.training.action.MemberAction" parameter="action" name="goodsorderform">
