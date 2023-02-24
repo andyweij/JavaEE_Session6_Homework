@@ -39,4 +39,9 @@ public class BackendService {
 
 		return backenddao.querySalesReport(queryStartDate,queryEndDate);
 	}
+	public Goods queryGoodsById(String goodsId) {
+		
+		return backenddao.queryGoods(goodsId);
+
+	}
 }

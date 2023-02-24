@@ -8,20 +8,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Set;
-
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.upload.FormFile;
-
 import com.training.formbean.BackActionForm;
 import com.training.model.Goods;
 import com.training.service.BackendService;
@@ -35,7 +32,7 @@ public class BackendAction extends DispatchAction{
             HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		List<Goods> goods = backendservice.queryGoods();
 		req.setAttribute("goods", goods);
-		goods.stream().forEach(a -> System.out.println(a.toString()));
+//		goods.stream().forEach(a -> System.out.println(a.toString()));
 
 		// Redirect to view
 		return mapping.findForward("backendGoodsList");
@@ -43,20 +40,28 @@ public class BackendAction extends DispatchAction{
 
 	public ActionForward updateGoodsview(ActionMapping mapping, ActionForm form, 
             HttpServletRequest req, HttpServletResponse resp) throws Exception {
-
-
+		List<Goods> goods = backendservice.queryGoods();
+		req.setAttribute("goods", goods);
+		
+		String id = req.getParameter("goodsID");
+		id = (id != null) ? id : (String)req.getSession().getAttribute("updateGoodsID");
+		if(id != null){
+			Goods good = backendservice.queryGoodsById(id);
+			req.setAttribute("updategoods", good);
+		}
 		return mapping.findForward("backendGoodsReplenishmentview");
 	}
 
 	public ActionForward updateGoods(ActionMapping mapping, ActionForm form, 
             HttpServletRequest req, HttpServletResponse resp) throws Exception {
-
+		HttpSession session = req.getSession();
 		BackActionForm backactionform=(BackActionForm)form;
 		Goods good = new Goods();	
 		BeanUtils.copyProperties(good, backactionform);
 		boolean modifyResult = backendservice.modifyGood(good);
 		String message = modifyResult ? "1" : "2";
-		System.out.println(message);
+		session.setAttribute("updateMsg", message);
+		session.setAttribute("updateGoodsID", good.getGoodsID());
 		// Redirect to view
 		return mapping.findForward("backendGoodsReplenishment");
 	}

@@ -7,10 +7,10 @@
 <head>
 <meta http-equiv="Content-Language" content="zh-tw">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Backend</title>
+<title>BackEnd</title>
 <script type="text/javascript">
-		function goodstSelected(){
-	        document.updateGoodsForm.action.value = "backendGoodsReplenishmentview";
+		function goodsSelected(){
+	        document.updateGoodsForm.action.value = "updateGoodsview";
 	        document.updateGoodsForm.submit();
 		}
 	</script>
@@ -22,32 +22,33 @@
 	<div style="margin-left: 25px;">
 		<p style="color: blue;">${sessionScope.updateMsg}</p>
 		<% session.removeAttribute("updateMsg"); %>
-		<form form name="updateGoodsForm" action="BackendAction.do"
-			method="post">
+		<form name="updateGoodsForm" action="BackendAction.do" method="post">
 			<input type="hidden" name="action" value="updateGoods" />
 			<p>
-				<select size="1" name="id" onchange="goodsSelected();">
+				<select size="1" name="goodsID" onchange="goodsSelected();">
 					<option value="">----- 請選擇 -----</option>
 					<c:forEach items="${goods}" var="goods">
-						<option <c:if test="${goods.id eq updategoods.id}">selected</c:if>
-							value="${goods.id}">${goods.id}</option>
+						<option <c:if test="${goods.goodsID eq updategoods.goodsID}">selected</c:if>
+							value="${goods.goodsID}">
+							${goods.goodsName}
+							</option>
 					</c:forEach>
 				</select>
 			</p>
 			<p>
-				設定價格： <input type="text" name="goodsPrice" size="10" />
+				更改價格： 
+			<input type="number" name="goodsPrice" size="5" value="${updategoods.goodsPrice}" >
 			</p>
 			<p>
-				上架數量： <input type="text" name="goodsQuantity" size="10" />
+				補貨數量：
+			<input type="number" name="goodsQuantity" size="5" value="${updategoods.goodsQuantity}" >
 			</p>
 			<p>
-				商品圖片： <input type="file" name="goodsImage" />
-			</p>
-			<p>
-				商品狀態： <select name="status">
-					<option value="1">上架</option>
-					<option value="0">下架</option>
-				</select>
+				商品狀態：
+			<select name="status">
+				<option value="1">上架</option>
+				<option value="0">下架</option>				
+			</select>
 			</p>
 			<p>
 				<input type="submit" value="新增">
