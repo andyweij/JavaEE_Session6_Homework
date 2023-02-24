@@ -14,6 +14,7 @@
 </head>
 <body>
 <%@ include file="BackendMenu.jsp" %>
+<br/><br/><HR>
 	<h2>商品列表</h2><br/>
 	<div style="margin-left:25px;">
 <table border="1">
@@ -36,7 +37,7 @@
 			</c:forEach>
 			</tbody>
 			</table>
-<br/><br/><HR>
+</div>
 
 </body>
 </html>
