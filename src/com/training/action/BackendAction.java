@@ -32,7 +32,7 @@ public class BackendAction extends DispatchAction{
             HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		List<Goods> goods = backendservice.queryGoods();
 		req.setAttribute("goods", goods);
-//		goods.stream().forEach(a -> System.out.println(a.toString()));
+		goods.stream().forEach(a -> System.out.println(a.toString()));
 
 		// Redirect to view
 		return mapping.findForward("backendGoodsList");
@@ -102,6 +102,7 @@ public class BackendAction extends DispatchAction{
 		String queryStartDate = backactionform.getQueryStartDate();
 		String queryEndDate = backactionform.getQueryEndDate();
 		Set<SalesReport> salesreport = backendservice.querySalesReport(queryStartDate,queryEndDate);
+		req.setAttribute("salesreport", salesreport);
 		salesreport.stream().forEach(a -> System.out.println(a.toString()));
 
 		// Redirect to view

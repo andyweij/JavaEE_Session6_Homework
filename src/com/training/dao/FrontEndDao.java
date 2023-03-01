@@ -283,8 +283,8 @@ public class FrontEndDao {
 		if(pageNo=="") {
 			
 		}else {		
-		int endRowNo=Integer.parseInt(pageNo)*3;
-		int startRowNo=endRowNo-2;
+		int endRowNo=Integer.parseInt(pageNo)*6;
+		int startRowNo=endRowNo-5;
 		querysql += " WHERE ROW_NUM >= "+startRowNo+" AND ROW_NUM <= "+endRowNo;
 		}
 		

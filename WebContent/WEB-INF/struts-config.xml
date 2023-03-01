@@ -11,7 +11,7 @@
  <action-mappings>    
         <action path="/FrontendAction" type="com.training.action.FrontendAction" 
         		parameter="action" name="goodsorderform">
-            <forward name="vendingMachine" path="/WEB-INF/view/VendingMachineCart.html"/>
+            <forward name="vendingMachine" path="/WEB-INF/view/VendingMachineCart.jsp"/>
         </action>
         <action path="/BackendAction" type="com.training.action.BackendAction" 
         		parameter="action" name="backactionform">
@@ -27,7 +27,7 @@
         </action>
          <action path="/LoginAction" type="com.training.action.LoginAction" parameter="action">
            
-            <forward name="success" path="BackendAction.do?action=queryGoods" redirect="true"/>
+            <forward name="success" path="FrontendAction.do?action=searchGoods" redirect="true"/>
 <!--BackendAction.do?action=queryGoods-->
 <!--FrontendAction.do?action=searchGoods-->
             <forward name="fail" path="/VendingMachineLogin.jsp" />
