@@ -26,6 +26,7 @@
 		
 	}
 		function addCartGoods(goodsID, buyQuantityIdx){
+			
 			console.log("goodsID:", goodsID);			
 			var buyQuantity = document.getElementsByName("buyQuantity")[buyQuantityIdx].value;
 			console.log("buyQuantity:", buyQuantity);
@@ -82,12 +83,13 @@
 				href="LoginAction.do?action=logout" align="left">登出</a> <br />
 			<br />
 				<form action="FrontendAction.do" method="post">
-					<input type="hidden" name="action" value="buyGoods" /> <font
+					<input type="hidden" name="action" value="buyGoods" /> 
+					<font
 						face="微軟正黑體" size="4"> <b>投入:</b> <input type="number"
 						name="inputMoney" max="100000" min="0" size="5" value="0">
 						<b>元</b> <b><input type="submit" value="送出">
-							<button onclick="senfront()">送出2</button> <br />
-						<br /></font>
+						<br />
+						</font>
 				</form>
 				<div style="border-width: 3px; border-style: dashed; border-color: #FFAC55; padding: 5px; width: 300px;">
 					<p style="color: blue;">~~~~~~~ 消費明細 ~~~~~~~</p>
@@ -133,15 +135,15 @@
 				</table>
 			</td>
 			</tr>
-			<tr>
-		<td colspan="2" align="right">				
-			<h3 class="page"> <a href="FrontendAction.do?action=searchGoods&pageNo=${pagecount}"> 上一頁 </a> </h3>
-			<h3 class="page"> <a href="FrontendAction.do?action=searchGoods&pageNo=1"> 1 </a> </h3>
-			<h3 class="page"> <a href="FrontendAction.do?action=searchGoods&pageNo=2"> 2 </a> </h3>
-			<h3 class="page"> <a href="FrontendAction.do?action=searchGoods&pageNo=3"> 3 </a> </h3>  
-			<h3 class="page"> <a href="FrontendAction.do?action=searchGoods&pageNo=4"> 下一頁 </a> </h3>
-		</td>
-	</tr>
-			</table>
+
+		<tr>
+			<c:forEach items="${pages}" var="pages">
+				<td colspan="2" align="right">
+					<h3 class="page"><a href="FrontendAction.do?action=searchGoods&pageNo=${pages}">${pages}</a></h3>
+				</td>
+			</c:forEach>
+		</tr>
+
+	</table>
 </body>
 </html>

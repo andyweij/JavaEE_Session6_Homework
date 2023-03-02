@@ -9,10 +9,14 @@
   	</form-beans>
   	
  <action-mappings>    
+ 
         <action path="/FrontendAction" type="com.training.action.FrontendAction" 
         		parameter="action" name="goodsorderform">
-            <forward name="vendingMachine" path="/WEB-INF/view/VendingMachineCart.jsp"/>
+        	<forward name="vendingMachine" path="FrontendAction.do?action=searchGoods" redirect="true"/>
+            <forward name="vendingMachineview" path="/WEB-INF/view/VendingMachineCart.jsp"/>
         </action>
+        
+        
         <action path="/BackendAction" type="com.training.action.BackendAction" 
         		parameter="action" name="backactionform">
            <forward name="backendGoodsList" path="/WEB-INF/view/VM_Backend_GoodsList.jsp"/>
@@ -25,13 +29,14 @@
             
             <forward name="backendGoodsSaleReport" path="/WEB-INF/view/VM_Backend_GoodsSaleReport.jsp"/>
         </action>
+         
          <action path="/LoginAction" type="com.training.action.LoginAction" parameter="action">
-           
             <forward name="success" path="FrontendAction.do?action=searchGoods" redirect="true"/>
-<!--BackendAction.do?action=queryGoods-->
-<!--FrontendAction.do?action=searchGoods-->
             <forward name="fail" path="/VendingMachineLogin.jsp" />
         </action> 
+<!--BackendAction.do?action=queryGoods-->
+<!--FrontendAction.do?action=searchGoods-->     
+  
         <action path="/MemberAction" type="com.training.action.MemberAction" parameter="action" name="goodsorderform">
         <forward name="vendingMachine" path="/WEB-INF/view/VendingMachineCart.jsp"/>
         </action>

@@ -21,11 +21,12 @@ import org.apache.struts.actions.DispatchAction;
 import com.training.dao.FrontEndDao;
 import com.training.formbean.GoodsOrderForm;
 import com.training.model.Goods;
+import com.training.service.FrontendService;
 
 @MultipartConfig
 public class MemberAction extends DispatchAction {
 
-	private static FrontEndDao frontenddao = FrontEndDao.getInstance();
+	private FrontendService frontendservice = FrontendService.getInstance();
 
 	public ActionForward addCartGoods(ActionMapping mapping, ActionForm form, HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
@@ -36,13 +37,13 @@ public class MemberAction extends DispatchAction {
 		System.out.println("buyQuantity:" + buyQuantity);
 		// 查詢資料庫商品並且加入購物車
 		Map<Goods, Integer> carGoods;
-		Goods goods = frontenddao.queryByGoods(goodsID);
+		Goods goods = frontendservice.queryByGoodsId(goodsID);
 		HttpSession session = req.getSession();
 		if (session.getAttribute("carGoods") == null) {
 			carGoods = new LinkedHashMap<>();
 			carGoods.put(goods, Integer.parseInt(buyQuantity));
 		} else {
-			carGoods = (LinkedHashMap) session.getAttribute("carGoods");
+			carGoods = (LinkedHashMap)session.getAttribute("carGoods");
 			if(carGoods.containsKey(goods)) {
 				carGoods.replace(goods, Integer.parseInt(buyQuantity)+carGoods.get(goods));
 			}else {

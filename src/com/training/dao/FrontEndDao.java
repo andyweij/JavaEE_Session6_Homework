@@ -96,11 +96,7 @@ public class FrontEndDao {
 				buygoodsRtn.setReturnprice(goodsorderform.getInputMoney()-total);
 				buygoodsRtn.setGoodsinf(sb.toString());
 				System.out.println(insertCounts);
-//			for(int count : insertCounts ) {
-//			System.out.println(count);
-//			}
-				System.out.println(total);
-				
+				System.out.println(total);				
 			} catch (SQLException e) {
 				conn.rollback();
 			}
@@ -143,13 +139,12 @@ public class FrontEndDao {
 //		}
 //		return goods;
 //	}
-	public Goods queryByGoods(String goodsId) {
+	public Goods queryByGoodsId(String goodsId) {
 		String querysql = "SELECT * FROM BEVERAGE_GOODS WHERE GOODS_ID = ?";
 		Goods good = new Goods();
 		try (Connection conn = DBConnectionFactory.getOracleDBConnection();
 				PreparedStatement pstmt = conn.prepareStatement(querysql)) {
-				conn.setAutoCommit(false);
-				
+				conn.setAutoCommit(false);			
 				int count = 1;
 				pstmt.setString(count, goodsId);
 				try (ResultSet rs = pstmt.executeQuery()) {
@@ -218,7 +213,6 @@ public class FrontEndDao {
 				pstmt.addBatch();
 			}
 			int[] insertCounts = pstmt.executeBatch();
-
 //			for (int c : insertCounts) {
 //				System.out.println(c);
 //			}
@@ -286,8 +280,7 @@ public class FrontEndDao {
 		int endRowNo=Integer.parseInt(pageNo)*6;
 		int startRowNo=endRowNo-5;
 		querysql += " WHERE ROW_NUM >= "+startRowNo+" AND ROW_NUM <= "+endRowNo;
-		}
-		
+		}		
 		try (Connection conn = DBConnectionFactory.getOracleDBConnection();
 				PreparedStatement pstmt = conn.prepareStatement(querysql)) {
 			conn.setAutoCommit(false);
@@ -313,5 +306,33 @@ public class FrontEndDao {
 			e.printStackTrace();
 		}
 		return goodsList;
+	}
+	public List<Goods> queryAllGoods(){
+		List<Goods> goods=new ArrayList<>();
+		String querysql = "SELECT * FROM BEVERAGE_GOODS ";
+		try (Connection conn = DBConnectionFactory.getOracleDBConnection();
+				PreparedStatement pstmt = conn.prepareStatement(querysql)) {
+			conn.setAutoCommit(false);
+				try (ResultSet rs = pstmt.executeQuery()) {
+					while (rs.next()) {
+						Goods good = new Goods();
+						good.setGoodsID(rs.getString("GOODS_ID"));
+						good.setGoodsImageName(rs.getString("IMAGE_NAME"));
+						good.setGoodsName(rs.getString("GOODS_NAME"));
+						good.setGoodsPrice(rs.getInt("PRICE"));
+						good.setGoodsQuantity(rs.getInt("QUANTITY"));
+						good.setStatus(rs.getString("STATUS"));
+						goods.add(good);
+					}
+
+				} catch (SQLException e) {
+					conn.rollback();
+					throw e;
+				}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return goods;
 	}
 }

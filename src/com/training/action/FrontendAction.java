@@ -3,6 +3,7 @@ package com.training.action;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class FrontendAction extends DispatchAction{
 		buyRtn.setPayprice(goodsorderform.getInputMoney());
 		buyRtn.setCarGoods((LinkedHashMap) session.getAttribute("carGoods"));
 		if(buyRtn.getCarGoods()==null) {
-			return mapping.findForward("vendingMachine");
+			return mapping.findForward("vendingMachineview");
 		}
 		goodsorderform.setCustomerID(mem.getIdentificationNo());
 		
@@ -58,33 +59,71 @@ public class FrontendAction extends DispatchAction{
 	}
 	public ActionForward searchGoods(ActionMapping mapping, ActionForm form, 
         HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String pageNo = "";
-		String searchKeyword ="";			
-		List<Goods> pagination = frontendservice.pageSearch(searchKeyword, pageNo);
-		BigDecimal pagecount=new BigDecimal(pagination.size()).divide(new BigDecimal("6"),0, RoundingMode.UP);	
-		req.setAttribute("pagecount", pagecount);
+		List<Goods> allgoods = frontendservice.queryAllGoods();
+		BigDecimal pageAllCount = new BigDecimal(allgoods.size()).divide(new BigDecimal("6"), 0, RoundingMode.UP);
+		
 		GoodsOrderForm goodsorderform=(GoodsOrderForm)form;
-		pageNo = goodsorderform.getPageNo();
-		searchKeyword = goodsorderform.getSearchKeyword();
+		String pageNo = goodsorderform.getPageNo();
+		String searchKeyword = goodsorderform.getSearchKeyword();
+		List<Integer> pages=new ArrayList<>();
 		if(null==searchKeyword&&null==pageNo) {
 			searchKeyword="";
 			pageNo="1";
-		}else if(null==searchKeyword){
+			for(int i=1;i<=Integer.parseInt(pageNo)+2;i++ ) {
+			pages.add(i);
+			req.setAttribute("pages", pages);
+			}
+		}else if(null==searchKeyword&&null!=pageNo){
 			searchKeyword="";
+		}else if(null==pageNo) {
+			pageNo="1";
 		}
+			if(pageNo.equals("1")) {
+			for(int i=1;i<=Integer.parseInt(pageNo)+2;i++ ) {
+			pages.add(i);
+			req.setAttribute("pages", pages);
+			}
+			}else if(pageNo.equals(pageAllCount.toString())) {
+				for(int i=pageAllCount.intValue()-2;i<=pageAllCount.intValue();i++ ) {
+					pages.add(i);
+					req.setAttribute("pages", pages);
+			}
+		}else {
+			for(int i=Integer.parseInt(pageNo)-1;i<=Integer.parseInt(pageNo)+1;i++ ) {
+				pages.add(i);
+				req.setAttribute("pages", pages);
+			}
+		}
+		
 		List<Goods> pagesearch = frontendservice.pageSearch(searchKeyword, pageNo);
 		req.setAttribute("pagesearch", pagesearch);
 		pagesearch.stream().forEach(p -> System.out.println(p.toString()));	
-		return mapping.findForward("vendingMachine");
+		
+		return mapping.findForward("vendingMachineview");
 	}
-	public ActionForward pagination(ActionMapping mapping, ActionForm form, 
-	        HttpServletRequest req, HttpServletResponse resp) throws IOException {			
-			String pageNo = "";
-			String searchKeyword ="";			
+	
+	public ActionForward pagInation(ActionMapping mapping, ActionForm form, 
+	        HttpServletRequest req, HttpServletResponse resp) throws IOException {	
+		//查詢資料庫資料筆數		
+		List<Goods> allgoods = frontendservice.queryAllGoods();
+		BigDecimal pageAllCount = new BigDecimal(allgoods.size()).divide(new BigDecimal("6"), 0, RoundingMode.UP);
+		String searchKeyword="";
+		String pageNo="";
 			List<Goods> pagination = frontendservice.pageSearch(searchKeyword, pageNo);
-			int pagecount=pagination.size()/6;		
-			req.setAttribute("pagecount", pagecount);
+			req.setAttribute("pagination", pagination);
 			return mapping.findForward("vendingMachine");
 		}
 
+		public ActionForward queryallGoods(ActionMapping mapping, ActionForm form, HttpServletRequest req,
+				HttpServletResponse resp) throws IOException {
+			String pageNo = "";
+			String searchKeyword = "";
+			List<Goods> pagination = frontendservice.pageSearch(searchKeyword, pageNo);
+			for(Goods good:pagination) {
+			int i=pagination.indexOf(good);
+			}
+			BigDecimal pagecount = new BigDecimal(pagination.size()).divide(new BigDecimal("6"), 0, RoundingMode.UP);
+			req.setAttribute("pagecount", pagecount);
+			return mapping.findForward("vendingMachine");
+		}
 }

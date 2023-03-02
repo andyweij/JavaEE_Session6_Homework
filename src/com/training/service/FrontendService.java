@@ -44,19 +44,19 @@ public class FrontendService {
 			if (buyRtn.getCarGoods().get(good) > 0 && queryBuyGoods.get(good.getGoodsID()).getGoodsQuantity() >= buyRtn.getCarGoods().get(good)) {
 				total += queryBuyGoods.get(good.getGoodsID()).getGoodsPrice()
 						* buyRtn.getCarGoods().get(good);
-				sb.append("商品名稱：" + queryBuyGoods.get(good.getGoodsID()).getGoodsName() + " 商品金額:"
-					+ queryBuyGoods.get(good.getGoodsID()).getGoodsPrice() + " 購買數量:" +	buyRtn.getCarGoods().get(good) + "\n");
+				sb.append("<br/> 商品名稱：" + queryBuyGoods.get(good.getGoodsID()).getGoodsName() + " <br/> 商品金額:"
+					+ queryBuyGoods.get(good.getGoodsID()).getGoodsPrice() + " <br/> 購買數量:" +	buyRtn.getCarGoods().get(good) + "\n ");
 			} else if (buyRtn.getCarGoods().get(good) > 0 && queryBuyGoods.get(good.getGoodsID())
 					.getGoodsQuantity() < buyRtn.getCarGoods().get(good)) {
 				total += queryBuyGoods.get(good.getGoodsID()).getGoodsPrice()
 						* queryBuyGoods.get(good.getGoodsID()).getGoodsQuantity();
-			sb.append("商品名稱：" + queryBuyGoods.get(good.getGoodsID()).getGoodsName() + " 商品金額:"
-					+ queryBuyGoods.get(good.getGoodsID()).getGoodsPrice() + " 購買數量:" +	queryBuyGoods.get(good.getGoodsID()).getGoodsQuantity() + "\n");
+			sb.append("<br/> 商品名稱：" + queryBuyGoods.get(good.getGoodsID()).getGoodsName() + "<br/>  商品金額:"
+					+ queryBuyGoods.get(good.getGoodsID()).getGoodsPrice() + "<br/>  購買數量:" +	queryBuyGoods.get(good.getGoodsID()).getGoodsQuantity() + "\n ");
 		}else if(buyRtn.getCarGoods().get(good) > 0 && queryBuyGoods.get(good.getGoodsID())
 					.getGoodsQuantity() ==0){
 			total+=0;
-			sb.append("商品名稱：" + queryBuyGoods.get(good.getGoodsID()).getGoodsName() + " 商品金額:"
-					+ queryBuyGoods.get(good.getGoodsID()).getGoodsPrice() + " 購買數量:" +	queryBuyGoods.get(good.getGoodsID()).getGoodsQuantity() + "\n");
+			sb.append("<br/> 商品名稱：" + queryBuyGoods.get(good.getGoodsID()).getGoodsName() + "<br/>  商品金額:"
+					+ queryBuyGoods.get(good.getGoodsID()).getGoodsPrice() + "<br/>  購買數量:" +	queryBuyGoods.get(good.getGoodsID()).getGoodsQuantity() + "\n ");
 			}
 		}
 
@@ -98,8 +98,8 @@ public class FrontendService {
 		return goods;
 	}
 
-	public BuyGoodsRtn BuyGoodsRtn(GoodsOrderForm goodsorderform, int totalprice, Map<String, Goods> queryBuyGoods) {
-		BuyGoodsRtn buygoodsRtn = new BuyGoodsRtn();
+//	public BuyGoodsRtn BuyGoodsRtn(GoodsOrderForm goodsorderform, int totalprice, Map<String, Goods> queryBuyGoods) {
+//		BuyGoodsRtn buygoodsRtn = new BuyGoodsRtn();
 //		if (goodsorderform.getPayPrice() >= totalprice) {
 //			buygoodsRtn.setPayprice(goodsorderform.getPayPrice());
 //			buygoodsRtn.setTotalsprice(totalprice);
@@ -117,11 +117,17 @@ public class FrontendService {
 //			buygoodsRtn.setReturnprice(goodsorderform.getPayPrice());
 //			buygoodsRtn.setGoodsinf("");
 //		}
-		return buygoodsRtn;
+//		return buygoodsRtn;
+//	}
+	public Goods queryByGoodsId(String GoodsId) {
+		return frontenddao.queryByGoodsId(GoodsId);
 	}
 
 	public List<Goods> pageSearch(String searchKeyword, String pageNo) {
-
 		return frontenddao.pageSerach(searchKeyword, pageNo);
+	}
+	
+	public List<Goods> queryAllGoods(){
+		return frontenddao.queryAllGoods();
 	}
 }
