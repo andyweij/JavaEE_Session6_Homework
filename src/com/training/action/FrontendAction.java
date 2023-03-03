@@ -96,6 +96,7 @@ public class FrontendAction extends DispatchAction{
 		}
 		
 		List<Goods> pagesearch = frontendservice.pageSearch(searchKeyword, pageNo);
+		
 		req.setAttribute("pagesearch", pagesearch);
 		pagesearch.stream().forEach(p -> System.out.println(p.toString()));	
 		

@@ -38,7 +38,7 @@
 			const request = new XMLHttpRequest();      /* const(區塊變數宣告))*/
 			request.open("POST", "MemberAction.do");			
 			request.send(formData);
-			
+
 		}
 		function queryCartGoods(){
 			const formData = new FormData();
@@ -47,6 +47,7 @@
 			const request = new XMLHttpRequest();
 			request.open("POST", "MemberAction.do");			
 			request.send(formData);
+
 		}
 		function clearCartGoods(){
 			const formData = new FormData();
@@ -78,7 +79,8 @@
 		<tr>
 			<td width="400" height="200" align="center"><img border="0"
 				src="DrinksImage/coffee.jpg" width="200" height="200">
-				<h1>歡迎光臨，Tomcat！</h1> <a href="BackendAction.do?action=queryGoods"
+				<h1>歡迎光臨，Tomcat！</h1> 
+				<a href="BackendAction.do?action=queryGoods"
 				align="left">後臺頁面</a>&nbsp; &nbsp; <a
 				href="LoginAction.do?action=logout" align="left">登出</a> <br />
 			<br />
@@ -103,30 +105,30 @@
 				<table border="1" style="border-collapse: collapse">
 					<tbody>
 					<tr>
-						<c:forEach items="${pagesearch}" var="pagesearch">
+						<c:forEach items="${pagesearch}" var="pagegoods" varStatus="status">
 								<td width="300"> 
 								<font face="微軟正黑體" size="5"> 
 								<!-- 例如: 可口可樂 30元/罐 -->
-								${pagesearch.goodsName}
+								${pagegoods.goodsName}
 								</font> 
 								<br/> 
 								<font face="微軟正黑體" size="4" style="color: gray;">
 								<!-- 例如: 可口可樂 30元/罐 -->
-								${pagesearch.goodsPrice} 元/罐
+								${pagegoods.goodsPrice} 元/罐
 								</font> 
 								<br /> 
 								<!-- 各商品圖片 --> 
-								<img border="0" src="DrinksImage/${pagesearch.goodsImageName}" width="150" height="150"> 
+								<img border="0" src="DrinksImage/${pagegoods.goodsImageName}" width="150" height="150"> 
 									<br /> 
 									<font face="微軟正黑體" size="3">
 										<input type="hidden" name="goodsID"
-										value="${pagesearch.goodsID}"> 購買<input type="number"
+										value="${pagegoods.goodsID}"> 購買<input type="number"
 										name="buyQuantity" min="0" max="30" size="5" value="0">罐
 										<!-- 設定最多不能買大於庫存數量 --> <br>
 									<br>
-									<button onclick="addCartGoods(${pagesearch.goodsID},0)">加入購物車</button>
-										<br>
-									<p style="color: red;">(庫存 ${pagesearch.goodsQuantity} 罐)</p> <!-- 顯示庫存數量 -->
+									<button onclick="addCartGoods(${pagegoods.goodsID},${pagesearch.indexOf(pagegoods)})">加入購物車</button>
+										<br>											<!--${status.index} 需設varStatus -->
+									<p style="color: red;">(庫存 ${pagegoods.goodsQuantity} 罐)</p> <!-- 顯示庫存數量 -->
 								</font>
 								</td>
 								</c:forEach>
@@ -139,7 +141,11 @@
 		<tr>
 			<c:forEach items="${pages}" var="pages">
 				<td colspan="2" align="right">
-					<h3 class="page"><a href="FrontendAction.do?action=searchGoods&pageNo=${pages}">${pages}</a></h3>
+				<c:url value="/FrontendAction.do" var="page">
+				<c:param name="action" value="searchGoods"/>
+				<c:param name="pageNo" value="${pages}"/>
+				</c:url>
+					<h3 class="page"> <a href="${page}">${pages} </a> </h3>
 				</td>
 			</c:forEach>
 		</tr>

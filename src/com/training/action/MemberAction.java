@@ -30,6 +30,7 @@ public class MemberAction extends DispatchAction {
 
 	public ActionForward addCartGoods(ActionMapping mapping, ActionForm form, HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
+
 		GoodsOrderForm cartgoods = (GoodsOrderForm) form;
 		String goodsID = req.getParameter("goodsID");
 		String buyQuantity = req.getParameter("buyQuantity");
@@ -56,6 +57,7 @@ public class MemberAction extends DispatchAction {
 
 	public ActionForward queryCartGoods(ActionMapping mapping, ActionForm form, HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
+
 		HttpSession session = req.getSession();
 		Map<Goods, Integer> carGoods=(LinkedHashMap)session.getAttribute("carGoods");
 		if(null==carGoods) {
